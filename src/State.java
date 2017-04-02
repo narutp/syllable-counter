@@ -1,14 +1,11 @@
-//
-//public enum State {
-//	START,
-//	CONSONANT,
-//	SINGLE_VOWEL,
-//	MULTIVOWEL,
-//	HYPHEN,
-//	NONWORD,
-//	E
-//}
 
+/**
+ * State class that contain method for checking the character.
+ * 
+ * @author Narut Poovorakit
+ * @version 02.04.2017
+ *
+ */
 abstract class State {
 	public abstract void handleChar(char c);
 	public void enterState() {};

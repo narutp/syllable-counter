@@ -1,10 +1,23 @@
 
+/**
+ * A simple syllable counter that count a syllable from a 
+ * given word.
+ * @author Narut Poovorakit
+ * @version 02.04.2017
+ *
+ */
 public class SimpleSyllableCounter {
 	
+	/**
+	 * Counting a syllables from a given word checking each of the
+	 * character
+	 * @param word is a given word in each line of the text.
+	 * @return an amount of the syllables.
+	 */
 	public int countSyllables(String word) {
 		int syllables = 0;
 		char c = ' ';
-		State state = State.START; // Start
+		EnumState state = EnumState.START; // Start
 		for (int k = 0; k < word.length(); k++) {
 			c = word.charAt(k);
 			if (c == '\'') continue; //ignore apostrophe
@@ -12,108 +25,108 @@ public class SimpleSyllableCounter {
 				// process character c using state machine
 			case START: 
 				if (isVowelOrY(c)) {
-					state = State.SINGLE_VOWEL;
+					state = EnumState.SINGLE_VOWEL;
 					syllables++;
 				}
 				else if (c == 'e' || c == 'E') {
-					state = State.E;
+					state = EnumState.E;
 					syllables++;
 				}
 				else if (Character.isLetter(c)) {
-					state = State.CONSONANT;
+					state = EnumState.CONSONANT;
 				}
-				else state = State.NONWORD;
+				else state = EnumState.NONWORD;
 				break;
 				
 			case CONSONANT:
 				if (isVowelOrY(c)) { 
-					state = State.SINGLE_VOWEL;
+					state = EnumState.SINGLE_VOWEL;
 					syllables++;
 				}
 				else if (c == 'e' || c == 'E') {
-					state = State.E;
+					state = EnumState.E;
 					syllables++;
 				}
 				else if (Character.isLetter(c)) {
-					state = State.CONSONANT;
+					state = EnumState.CONSONANT;
 				}
 				else if (c == '-') {
-					state = State.HYPHEN;
+					state = EnumState.HYPHEN;
 				}
-				else state = State.NONWORD;
+				else state = EnumState.NONWORD;
 				break;
 				
 			case E:
 				if (isVowelOrY(c)) {
 					if (c == 'y') {
-						state = State.CONSONANT;
+						state = EnumState.CONSONANT;
 					}
 					else {
-						state = State.MULTIVOWEL;
+						state = EnumState.MULTIVOWEL;
 					}
 				}
 				else if (c == 'e' || c == 'E') {
-					state = State.MULTIVOWEL;
+					state = EnumState.MULTIVOWEL;
 				}
 				else if (Character.isLetter(c)) {
-					state = State.CONSONANT;
+					state = EnumState.CONSONANT;
 				}
 				else if (c == '-') {
-					state = State.HYPHEN;
+					state = EnumState.HYPHEN;
 				}
-				else state = State.NONWORD;
+				else state = EnumState.NONWORD;
 				break;
 				
 			case SINGLE_VOWEL:
 				if (isVowelOrY(c)) {
 					if (c == 'y') {
-						state = State.CONSONANT;
+						state = EnumState.CONSONANT;
 					}
 					else {
-						state = State.MULTIVOWEL;
+						state = EnumState.MULTIVOWEL;
 					}
 				}
 				else if (c == 'e' || c == 'E') {
-					state = State.MULTIVOWEL;
+					state = EnumState.MULTIVOWEL;
 				}
 				else if (Character.isLetter(c)) {
-					state = State.CONSONANT;
+					state = EnumState.CONSONANT;
 				}
 				else if (c == '-') {
-					state = State.HYPHEN;
+					state = EnumState.HYPHEN;
 				}
-				else state = State.NONWORD;
+				else state = EnumState.NONWORD;
 				break;
 				
 			case MULTIVOWEL:
 				if (isVowelOrY(c)) {
-					state = State.MULTIVOWEL;
+					state = EnumState.MULTIVOWEL;
 				}
 				else if (c == 'e' || c == 'E') {
-					state = State.MULTIVOWEL;
+					state = EnumState.MULTIVOWEL;
 				}
 				else if (Character.isLetter(c)) {
-					state = State.CONSONANT;
+					state = EnumState.CONSONANT;
 				}
 				else if (c == '-') {
-					state = State.HYPHEN;
+					state = EnumState.HYPHEN;
 				}
-				else state = State.NONWORD;
+				else state = EnumState.NONWORD;
 				break;
 				
 			case HYPHEN:
 				if (isVowelOrY(c)) {
-					state = State.SINGLE_VOWEL;
+					state = EnumState.SINGLE_VOWEL;
 					syllables++;
 				}
 				else if (c == 'e' || c == 'E') {
-					state = State.E;
+					state = EnumState.E;
 					syllables++;
 				}
 				else if (Character.isLetter(c)) {
-					state = State.CONSONANT;
+					state = EnumState.CONSONANT;
 				}
-				else state = State.NONWORD;
+				else state = EnumState.NONWORD;
 				break;
 				
 			default:
@@ -121,7 +134,7 @@ public class SimpleSyllableCounter {
 				break;
 			}
 		}
-		if (state == State.E && syllables > 1) {
+		if (state == EnumState.E && syllables > 1) {
 			syllables--;
 		}
 		return syllables;
